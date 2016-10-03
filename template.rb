@@ -5,14 +5,6 @@ require 'bundler'
 # Get Application Name
 @app_name = app_name
 
-run 'git init'
-run 'git add .'
-run 'git commit -m "Initial commit"'
-
-# git ignore
-run 'wget --no-verbose -O .gitignore https://raw.githubusercontent.com/github/gitignore/master/Rails.gitignore'
-#run 'wget --no-verbose -O .gitignore https://www.gitignore.io/api/rails'
-
 # Gemfile Settings
 
 append_file 'Gemfile', <<-CODE
@@ -27,6 +19,8 @@ CODE
 Bundler.with_clean_env do
   run 'bundle install --without production'
 end
+
+# Application Settings
 
 application do
   %q{
@@ -74,68 +68,41 @@ insert_into_file 'app/assets/javascripts/application.js', before: '//= require_t
 '//= require bootstrap-sprockets'
 end
 
-# Custom CSS
+# Theme 01
 
-copy_file @script_dir+'/assets/custom.css.scss', 'app/assets/stylesheets/custom.css.scss'
+#remove_file 'app/views/layouts/application.html.erb'
+#copy_file @script_dir+'/assets/01/custom.css.scss',       'app/assets/stylesheets/custom.css.scss'
+#copy_file @script_dir+'/assets/01/application.html.slim', 'app/views/layouts/application.html.slim'
+#copy_file @script_dir+'/assets/01/_header.html.slim',     'app/views/layouts/_header.html.slim'
+#copy_file @script_dir+'/assets/01/_footer.html.slim',     'app/views/layouts/_footer.html.slim'
 
-# Repace application.html
+# Theme 02
 
 remove_file 'app/views/layouts/application.html.erb'
-create_file 'app/views/layouts/application.html.slim' do
-%q{
-doctype html
-html
-  head
-    title @app_name
-    = csrf_meta_tags
-
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
-    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
-
-  body
-    = render 'layouts/header'
-    .container
-      = yield
-    = render 'layouts/footer'
-}
-end
-
-# Add Navigation Bar
-
-create_file 'app/views/layouts/_header.html.slim' do
-%q{
-header.navbar.navbar-fixed-top.navbar-inverse
-  .container
-    = link_to "@app_name", '#', id: "logo"
-    nav
-      ul.nav.navbar-nav.navbar-right
-        li = link_to "Home",   '#'
-        li = link_to "Help",   '#'
-        li = link_to "Log in", '#'
-}
-end
-
-# Add Header
-
-# Add Footer
-
-create_file 'app/views/layouts/_footer.html.slim' do
-%q{
-footer.footer
-  small
-    a> href="#" Link
-  nav
-    ul
-      li = link_to "About", '#'
-}
-end
+copy_file @script_dir+'/assets/02/custom.css.scss',       'app/assets/stylesheets/custom.css.scss'
+copy_file @script_dir+'/assets/02/application.html.slim', 'app/views/layouts/application.html.slim'
+copy_file @script_dir+'/assets/02/_header.html.slim',     'app/views/layouts/_header.html.slim'
+copy_file @script_dir+'/assets/02/_footer.html.slim',     'app/views/layouts/_footer.html.slim'
 
 # Add User SignUp/Login Page
 
 # Add Static Pages Controller
 
+# Add Home View
+
 #run 'rails g controller static_pages'
 
+# Git
+
+run 'git init'
 run 'git add .'
-run 'git commit -m "Applied Rails Template"'
+run 'git commit -m "Initial commit"'
+
+# .gitignore
+run 'wget --no-verbose -O .gitignore https://raw.githubusercontent.com/github/gitignore/master/Rails.gitignore'
+#run 'wget --no-verbose -O .gitignore https://www.gitignore.io/api/rails'
+
+
+run 'rails g scaffold User name email'
+run 'rake db:migrate'
 
