@@ -1,5 +1,7 @@
 require 'bundler'
 
+@script_dir = File.expand_path(File.dirname(__FILE__))
+
 # Get Application Name
 @app_name = app_name
 
@@ -59,42 +61,80 @@ end
 #  run 'bundle exec erb2slim -d app/views'
 #end
 
-#run 'rails g bootswatch:install lumen'
-#run 'rails g bootswatch:import lumen'
-#run 'rails g bootswatch:layout lumen'
-#
-#insert_into_file 'app/assets/stylesheets/application.css', after: " *= require_self\n" do
-#  lines = <<-EOS
-#   *= require lumen/lodader
-#   *= require lumen/bootswatch
-#  EOS
-#end
-#
-#insert_into_file 'app/assets/javascripts/application.js', before: "//= require turbolinks" do
-#  lines = <<-EOS
-#  //= require lumen/loader
-#  //= require lumen/bootswatch
-#  EOS
-#end
-#
-#insert_into_file 'config/initializers/assets.rb', after: "Rails.application.config.assets.version = '1.0'" do
-#  lines = <<-EOS
-#  Rails.application.config.assets.precompile += %w( lumen.css )
-#  Rails.application.config.assets.precompile += %w( lumen.js )
-#  EOS
-#end
+# CSS Settings for Bootstrap
 
 run 'mv app/assets/stylesheets/application.css app/assets/stylesheets/application.css.scss'
 
-append_file 'app/assets/stylesheets/application.css.scss', <<-CODE
-@import "bootstrap-sprockets";
-@import "bootstrap";
-body { padding-top: 60px; }
-CODE
+#append_file 'app/assets/stylesheets/application.css.scss', <<-CODE
+#@import "bootstrap-sprockets";
+#@import "bootstrap";
+#CODE
 
 insert_into_file 'app/assets/javascripts/application.js', before: '//= require_tree .\n' do
 '//= require bootstrap-sprockets'
 end
+
+# Custom CSS
+
+copy_file @script_dir+'/assets/custom.css.scss', 'app/assets/stylesheets/custom.css.scss'
+
+# Repace application.html
+
+remove_file 'app/views/layouts/application.html.erb'
+create_file 'app/views/layouts/application.html.slim' do
+%q{
+doctype html
+html
+  head
+    title @app_name
+    = csrf_meta_tags
+
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+
+  body
+    = render 'layouts/header'
+    .container
+      = yield
+    = render 'layouts/footer'
+}
+end
+
+# Add Navigation Bar
+
+create_file 'app/views/layouts/_header.html.slim' do
+%q{
+header.navbar.navbar-fixed-top.navbar-inverse
+  .container
+    = link_to "@app_name", '#', id: "logo"
+    nav
+      ul.nav.navbar-nav.navbar-right
+        li = link_to "Home",   '#'
+        li = link_to "Help",   '#'
+        li = link_to "Log in", '#'
+}
+end
+
+# Add Header
+
+# Add Footer
+
+create_file 'app/views/layouts/_footer.html.slim' do
+%q{
+footer.footer
+  small
+    a> href="#" Link
+  nav
+    ul
+      li = link_to "About", '#'
+}
+end
+
+# Add User SignUp/Login Page
+
+# Add Static Pages Controller
+
+#run 'rails g controller static_pages'
 
 run 'git add .'
 run 'git commit -m "Applied Rails Template"'
