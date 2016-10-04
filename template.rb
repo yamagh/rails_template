@@ -46,6 +46,9 @@ application do
       #g.request_specs false
       #g.assets false
       #g.helper false
+      g.stylesheets false
+      g.javascripts false
+      g.helper      false
     end
   }
 end
@@ -70,19 +73,19 @@ end
 
 # Theme 01
 
-#remove_file 'app/views/layouts/application.html.erb'
-#copy_file @script_dir+'/assets/01/custom.css.scss',       'app/assets/stylesheets/custom.css.scss'
-#copy_file @script_dir+'/assets/01/application.html.slim', 'app/views/layouts/application.html.slim'
-#copy_file @script_dir+'/assets/01/_header.html.slim',     'app/views/layouts/_header.html.slim'
-#copy_file @script_dir+'/assets/01/_footer.html.slim',     'app/views/layouts/_footer.html.slim'
+remove_file 'app/views/layouts/application.html.erb'
+copy_file @script_dir+'/assets/01/custom.css.scss',       'app/assets/stylesheets/custom.css.scss'
+copy_file @script_dir+'/assets/01/application.html.slim', 'app/views/layouts/application.html.slim'
+copy_file @script_dir+'/assets/01/_header.html.slim',     'app/views/layouts/_header.html.slim'
+copy_file @script_dir+'/assets/01/_footer.html.slim',     'app/views/layouts/_footer.html.slim'
 
 # Theme 02
 
-remove_file 'app/views/layouts/application.html.erb'
-copy_file @script_dir+'/assets/02/custom.css.scss',       'app/assets/stylesheets/custom.css.scss'
-copy_file @script_dir+'/assets/02/application.html.slim', 'app/views/layouts/application.html.slim'
-copy_file @script_dir+'/assets/02/_header.html.slim',     'app/views/layouts/_header.html.slim'
-copy_file @script_dir+'/assets/02/_footer.html.slim',     'app/views/layouts/_footer.html.slim'
+#remove_file 'app/views/layouts/application.html.erb'
+#copy_file @script_dir+'/assets/02/custom.css.scss',       'app/assets/stylesheets/custom.css.scss'
+#copy_file @script_dir+'/assets/02/application.html.slim', 'app/views/layouts/application.html.slim'
+#copy_file @script_dir+'/assets/02/_header.html.slim',     'app/views/layouts/_header.html.slim'
+#copy_file @script_dir+'/assets/02/_footer.html.slim',     'app/views/layouts/_footer.html.slim'
 
 # Add User SignUp/Login Page
 

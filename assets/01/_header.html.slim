@@ -1,7 +1,12 @@
-header.navbar.navbar-fixed-top.navbar-inverse
+header.navbar.navbar-fixed-top
   .container
-    = link_to "@app_name", '#', id: "logo"
-    nav
+    .navbar-header
+      = link_to "AppName", '/', id: "logo", class: "navbar-brand"
+    nav.collapse.navbar-collapse
+      ul.nav.navbar-nav
+        li = link_to "Link1",  '#'
+        li = link_to "Link2",  '#'
+        li = link_to "Link3",  '#'
       ul.nav.navbar-nav.navbar-right
         li = link_to "Home",   '#'
         li = link_to "Help",   '#'
