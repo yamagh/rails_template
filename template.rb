@@ -10,10 +10,7 @@ require 'bundler'
 append_file 'Gemfile', <<-CODE
 gem 'bootstrap-sass'
 gem 'slim-rails'
-#gem 'twitter-bootswatch-rails'
-#gem 'twitter-bootswatch-rails-helpers'
 #gem 'therubyracer'
-#gem 'erb2slim'
 CODE
 
 Bundler.with_clean_env do
@@ -39,24 +36,19 @@ application do
       g.template_engine :slim
       #g.test_framework  :rspec, :fixture => true
       #g.fixture_replacement :factory_girl, :dir => "spec/factories"
-      #g.view_specs false
+      #g.view_specs       false
       #g.controller_specs true
-      #g.routing_specs false
-      #g.helper_specs false
-      #g.request_specs false
-      #g.assets false
-      #g.helper false
-      g.stylesheets false
-      g.javascripts false
-      g.helper      false
+      #g.routing_specs    false
+      #g.helper_specs     false
+      #g.request_specs    false
+      #g.assets           false
+      #g.helper           false
+      g.stylesheets      false
+      g.javascripts      false
+      g.helper           false
     end
   }
 end
-
-# erb => slim
-#Bundler.with_clean_env do
-#  run 'bundle exec erb2slim -d app/views'
-#end
 
 # CSS Settings for Bootstrap
 
@@ -95,16 +87,13 @@ copy_file @script_dir+'/assets/01/_footer.html.slim',     'app/views/layouts/_fo
 
 #run 'rails g controller static_pages'
 
-# Git
 
-run 'git init'
-run 'git add .'
-run 'git commit -m "Initial commit"'
+# Git Commit
+run 'git init && git add . && git commit -m "Initial commit"'
 
 # .gitignore
 run 'wget --no-verbose -O .gitignore https://raw.githubusercontent.com/github/gitignore/master/Rails.gitignore'
 #run 'wget --no-verbose -O .gitignore https://www.gitignore.io/api/rails'
-
 
 run 'rails g scaffold User name email'
 run 'rake db:migrate'
