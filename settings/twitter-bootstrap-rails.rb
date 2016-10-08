@@ -14,3 +14,5 @@
 run 'rails generate bootstrap:install static      --force'
 run 'rails generate bootstrap:layout  application --force'
 
+remove_file "app/views/layouts/application.html.erb"
+
