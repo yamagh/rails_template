@@ -1,4 +1,5 @@
 run 'rails g devise:install'
+run 'rails g devise:views'
 
 insert_into_file 'config/environments/development.rb', after: "do\n" do
 %q{

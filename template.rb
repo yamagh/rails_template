@@ -5,8 +5,15 @@ require 'bundler'
 
 apply "#@script_dir/settings/gemfile.rb"
 apply "#@script_dir/settings/config_application.rb"
+
+# Gem Settings
+
+#apply "#@script_dir/settings/simple_form.rb"
 apply "#@script_dir/settings/twitter-bootstrap-rails.rb"
 apply "#@script_dir/settings/devise.rb"
+
+# Other settings
+
 apply "#@script_dir/settings/create_static_pages_controller.rb"
 #apply "#@script_dir/settings/theme_simple_white.rb", theme:'simple_white'
 apply "#@script_dir/settings/git.rb"
