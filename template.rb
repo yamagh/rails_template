@@ -9,6 +9,11 @@ require 'bundler'
   gem 'devise'
   gem 'guard'
   gem 'guard-minitest'
+  gem 'guard-livereload'
+  gem 'terminal-notifier-guard'
+  gem 'minitest-reporters'
+#  gem 'minitest-rails'
+#  gem 'minitest-rails-capybara'
 
   Bundler.with_clean_env do
     run 'bundle install --quiet --without production'
@@ -72,8 +77,8 @@ require 'bundler'
       :address        => 'smtp.gmail.com',
       :port           => 587,
       :authentication => :plain,
-      :user_name      => '$B%a!<%k%"%I%l%9(B',
-      :password       => '$B%Q%9%o!<%I(B'
+      :user_name      => 'メールアドレス',
+      :password       => 'パスワード'
     }
   }
   end
@@ -81,15 +86,15 @@ require 'bundler'
   run 'rails g devise:install'
   run 'rails g devise:views'
   run 'rails g devise user'
-  run 'rake db:migrate'
+  run 'rails db:migrate'
   
   create_file 'app/views/layouts/_sign_in.slim', <<~FILE
     - if user_signed_in?
-      li= link_to "Settings", edit_user_registration_path, :class => "navbar-link"
-      li= link_to "Logout", destroy_user_session_path, method: :delete, :class => "navbar-link"
+      li= link_to "設定", edit_user_registration_path, :class => "navbar-link"
+      li= link_to "ログアウト", destroy_user_session_path, method: :delete, :class => "navbar-link"
     - else
-      li= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'
-      li= link_to "Login", new_user_session_path, :class => 'navbar-link'
+      li= link_to "ユーザ登録", new_user_registration_path, :class => 'navbar-link'
+      li= link_to "ログイン", new_user_session_path, :class => 'navbar-link'
   FILE
 
   insert_into_file "app/views/layouts/application.html.slim", after: "li= link_to \"Link 3\", \"/path3\"" do
@@ -99,12 +104,40 @@ require 'bundler'
   end
 
 # =============================================================================
-#  Gem Settings - guard
+#  Gem Settings - guard-minitest
 
   run 'guard init minitest'
-  insert_into_file "Guardfile", after: 'guard :minitest' do
-    ', spring: "bin/rails test" '
+  append_to_file 'Guardfile', <<~FILE
+    guard :minitest, spring: "bin/rails test" do
+      watch(%r{^test/(.*)\/?(.*)_test\.rb$})
+    end
+  FILE
+
+# =============================================================================
+#  Gem Settings - minitest-reporters
+
+  insert_into_file "test/test_helper.rb", after: "require 'rails/test_help'" do
+    <<~FILE
+      
+      require "minitest/reporters"
+      Minitest::Reporters.use!
+    FILE
   end
+
+# =============================================================================
+#  Gem Settings - minitest-rails-capybara
+
+#  insert_into_file "test/test_helper.rb", after: "require 'rails/test_help'" do
+#    <<~FILE
+#      
+#      require "minitest/rails/capybara"
+#    FILE
+#  end
+
+# =============================================================================
+#  Gem Settings - guard-livereload
+
+  run 'guard init livereload'
 
 # =============================================================================
 #  Git Settings
