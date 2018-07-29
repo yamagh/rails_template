@@ -7,6 +7,7 @@ require 'bundler'
   gem 'slim-rails'
   gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
   gem 'devise'
+  gem 'devise-i18n'
   gem 'guard'
   gem 'guard-minitest'
   gem 'guard-livereload'
@@ -31,7 +32,7 @@ require 'bundler'
       # Japan
       #I18n.enforce_available_locales = true
       #config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
-      #config.i18n.default_locale = :ja
+      config.i18n.default_locale = :ja
   
       # Generator
       config.generators do |g|
